@@ -9,8 +9,7 @@ module BankOcr
 
     def self.split_numbers(string_entry)
       numbers = []
-
-      lines = string_entry.split("\n").first(3)
+      lines = string_entry.chop.split("\n")
 
       3.times do |line_index|
         lines[line_index].scan(/.{3}/).each_with_index do |number_section, index|

@@ -7,7 +7,33 @@ module BankOcr
       "   " <<
       "  |" <<
       "  |" => '1',
+      " _ " <<
+      " _|" <<
+      "|_ " => '2',
+      " _ " <<
+      " _|" <<
+      " _|" => '3',
+      "   " <<
+      "|_|" <<
+      "  |" => '4',
+      " _ " <<
+      "|_ " <<
+      " _|" => '5',
+      " _ " <<
+      "|_ " <<
+      "|_|" => '6',
+      " _ " <<
+      "  |" <<
+      "  |" => '7',
+      " _ " <<
+      "|_|" <<
+      "|_|" => '8',
+      " _ " <<
+      "|_|" <<
+      " _|" => '9',
     }
+
+    attr_accessor :original
 
     def initialize
       @original = ""
@@ -15,10 +41,6 @@ module BankOcr
 
     def <<(number_section)
       @original << number_section
-    end
-
-    def original
-      @original
     end
 
     def to_s
