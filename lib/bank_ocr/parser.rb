@@ -12,13 +12,23 @@ module BankOcr
       lines = string_entry.chop.split("\n")
 
       3.times do |line_index|
-        lines[line_index].scan(/.{3}/).each_with_index do |number_section, index|
-          numbers[index] ||= NumberParser.new
-          numbers[index] << number_section
+        each_number_section(lines[line_index]) do |number_section, column|
+          numbers[column] ||= NumberParser.new
+          numbers[column] << number_section
         end
       end
 
       numbers
+    end
+
+    private
+
+    def self.each_number_section(line)
+      section_pattern = /.{3}/
+
+      line.scan(section_pattern).each_with_index do |number_section, index|
+        yield number_section, index
+      end
     end
   end
 end

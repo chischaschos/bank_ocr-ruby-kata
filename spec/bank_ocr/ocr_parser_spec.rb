@@ -4,29 +4,51 @@ describe BankOcr::Parser do
   subject(:bank_ocr_parser) { BankOcr::Parser }
 
   describe '#parse_entry' do
-    it 'should parse a single 000000000 entry' do
-      number = " _  _  _  _  _  _  _  _  _ \n" <<
-               "| || || || || || || || || |\n" <<
-               "|_||_||_||_||_||_||_||_||_|\n\n"
-      parsed_number = bank_ocr_parser.parse_entry(number)
-      expect(parsed_number).to eq '000000000'
+    let(:series) do
+      {
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        "| || || || || || || || || |\n" <<
+        "|_||_||_||_||_||_||_||_||_|\n\n" => '000000000',
+        "                           \n" <<
+        "  |  |  |  |  |  |  |  |  |\n" <<
+        "  |  |  |  |  |  |  |  |  |\n\n" => '111111111',
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        " _| _| _| _| _| _| _| _| _|\n" <<
+        "|_ |_ |_ |_ |_ |_ |_ |_ |_ \n\n" => '222222222',
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        " _| _| _| _| _| _| _| _| _|\n" <<
+        " _| _| _| _| _| _| _| _| _|\n\n" => '333333333',
+        "                           \n" <<
+        "|_||_||_||_||_||_||_||_||_|\n" <<
+        "  |  |  |  |  |  |  |  |  |\n\n" => '444444444',
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        "|_ |_ |_ |_ |_ |_ |_ |_ |_ \n" <<
+        " _| _| _| _| _| _| _| _| _|\n\n" => '555555555',
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        "|_ |_ |_ |_ |_ |_ |_ |_ |_ \n" <<
+        "|_||_||_||_||_||_||_||_||_|\n\n" => '666666666',
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        "  |  |  |  |  |  |  |  |  |\n" <<
+        "  |  |  |  |  |  |  |  |  |\n\n" => '777777777',
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        "|_||_||_||_||_||_||_||_||_|\n" <<
+        "|_||_||_||_||_||_||_||_||_|\n\n" => '888888888',
+        " _  _  _  _  _  _  _  _  _ \n" <<
+        "|_||_||_||_||_||_||_||_||_|\n" <<
+        " _| _| _| _| _| _| _| _| _|\n\n" => '999999999',
+        "    _  _     _  _  _  _  _ \n" <<
+        "  | _| _||_||_ |_   ||_||_|\n" <<
+        "  ||_  _|  | _||_|  ||_| _|\n\n" => '123456789',
+      }
     end
 
-    it 'should parse a single 111111111 entry' do
-      number = "                           \n" <<
-               "  |  |  |  |  |  |  |  |  |\n" <<
-               "  |  |  |  |  |  |  |  |  |\n\n"
-      parsed_number = bank_ocr_parser.parse_entry(number)
-      expect(parsed_number).to eq '111111111'
+    it 'should parse each series of numbers' do
+      series.each do |numbers_string, number_parsed|
+        parsed_number = bank_ocr_parser.parse_entry(numbers_string)
+        expect(parsed_number).to eq number_parsed
+      end
     end
 
-    it 'should parse a single 222222222 entry' do
-      number = " _  _  _  _  _  _  _  _  _ \n" <<
-               " _| _| _| _| _| _| _| _| _|\n" <<
-               "|_ |_ |_ |_ |_ |_ |_ |_ |_ \n\n"
-      parsed_number = bank_ocr_parser.parse_entry(number)
-      expect(parsed_number).to eq '222222222'
-    end
   end
 
   describe '#split_numbers' do
