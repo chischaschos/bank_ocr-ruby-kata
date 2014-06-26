@@ -45,4 +45,10 @@ describe BankOcr::NumberParser do
     end
   end
 
+  it 'should return a blank when looking the string to parse was not valid' do
+      number_parser = BankOcr::NumberParser.new
+      expect(number_parser.original).to eq ''
+      expect(number_parser.to_s).to eq ' '
+  end
+
 end

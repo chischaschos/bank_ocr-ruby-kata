@@ -36,7 +36,7 @@ module BankOcr
     attr_accessor :original
 
     def initialize
-      @original = ""
+      @original = String.new
     end
 
     def <<(number_section)
@@ -44,7 +44,7 @@ module BankOcr
     end
 
     def to_s
-      NUMBERS[@original]
+      NUMBERS.fetch(@original, ' ')
     end
 
   end
