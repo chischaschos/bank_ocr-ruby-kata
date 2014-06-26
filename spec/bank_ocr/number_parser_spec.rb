@@ -41,14 +41,14 @@ describe BankOcr::NumberParser do
       number_parser = BankOcr::NumberParser.new
       number_parser << number_string
       expect(number_parser.original).to eq number_string
-      expect(number_parser.to_s).to eq parsed_number
+      expect(number_parser.parse).to eq parsed_number
     end
   end
 
-  it 'should return a blank when looking the string to parse was not valid' do
+  it 'should return a blank when parsing an invalid string' do
       number_parser = BankOcr::NumberParser.new
       expect(number_parser.original).to eq ''
-      expect(number_parser.to_s).to eq ' '
+      expect(number_parser.parse).to eq ' '
   end
 
 end

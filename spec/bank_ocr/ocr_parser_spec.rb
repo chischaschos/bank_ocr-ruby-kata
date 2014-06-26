@@ -125,7 +125,7 @@ describe BankOcr::Parser do
       numbers  = bank_ocr_parser.numbers_per_entry(number)
       numbers.each do |number_parser|
         expect(number_parser).to be_a BankOcr::NumberParser
-        expect(number_parser.to_s).to eq '0'
+        expect(number_parser.parse).to eq '0'
       end
       expect(numbers).to have(9).items
     end

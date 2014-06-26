@@ -43,7 +43,7 @@ module BankOcr
       @original << number_section
     end
 
-    def to_s
+    def parse
       NUMBERS.fetch(@original, ' ')
     end
 
