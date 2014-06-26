@@ -7,7 +7,7 @@ describe BankOcr::AccountNumber do
 
     it 'should validate account numbers' do
       numbers.each do |number|
-        expect(BankOcr::AccountNumber.valid?(number.to_s)).to be_true
+        expect(BankOcr::AccountNumber.error(number.to_s)).to eq ''
       end
     end
   end
@@ -17,8 +17,18 @@ describe BankOcr::AccountNumber do
 
     it 'should validate account numbers' do
       numbers.each do |number|
-        expect(BankOcr::AccountNumber.valid?(number.to_s)).to be_false
+        expect(BankOcr::AccountNumber.error(number.to_s)).to eq 'ERR'
+      end
+    end
+
+   context 'when the numbers are illegible' do
+    let(:numbers) { [ '?88888888', '49006771?', '490?67715' ] }
+
+    it 'should validate account numbers' do
+      numbers.each do |number|
+        expect(BankOcr::AccountNumber.error(number)).to eq 'ILL'
       end
     end
   end
+ end
 end
