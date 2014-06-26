@@ -3,10 +3,17 @@ require 'spec_helper'
 describe BankOcr::Parser do
   subject(:bank_ocr_parser) { BankOcr::Parser }
 
+  let(:fixtures_folder) { File.join(File.realpath(File.dirname(__FILE__)), '..', 'fixtures') }
+
+  let(:input_file_name_1) { File.join(fixtures_folder, 'test_numbers_1.txt') }
+
+  let(:input_file_name_2) { File.join(fixtures_folder, 'test_numbers_2.txt') }
+
+  let(:output_file_name_2) { File.join(fixtures_folder, 'test_numbers_2_output.txt') }
+
   describe '#parse_file' do
     it 'should parse a file with multiple entries' do
-      file = File.join(File.realpath(File.dirname(__FILE__)), '..', 'fixtures', 'test_numbers_1.txt')
-      expect(bank_ocr_parser.parse_file(file)).to eq [
+      expect(bank_ocr_parser.parse_file(input_file_name_1)).to eq [
         '000000000',
         '111111111',
         '222222222',
@@ -19,6 +26,24 @@ describe BankOcr::Parser do
         '999999999',
         '123456789',
       ]
+
+      expect(bank_ocr_parser.parse_file(input_file_name_2)).to eq [
+        '457508000',
+        '664371495',
+        '86110??36',
+        '000000051',
+        '49006771?',
+        '1234?678?'
+      ]
+    end
+  end
+
+  describe '#process_file' do
+    before { File.unlink(output_file_name_2) if File.exists?(output_file_name_2) }
+
+    it 'should parse and validate a file dumping its results to an output file' do
+      bank_ocr_parser.process(input_file_name_2)
+      expect(File.exists?(output_file_name_2)).to be_true
     end
   end
 

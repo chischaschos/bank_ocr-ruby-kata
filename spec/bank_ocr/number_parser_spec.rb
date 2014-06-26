@@ -48,7 +48,7 @@ describe BankOcr::NumberParser do
   it 'should return a blank when parsing an invalid string' do
       number_parser = BankOcr::NumberParser.new
       expect(number_parser.original).to eq ''
-      expect(number_parser.parse).to eq ' '
+      expect(number_parser.parse).to eq '?'
   end
 
 end

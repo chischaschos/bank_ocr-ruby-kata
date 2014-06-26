@@ -24,6 +24,14 @@ module BankOcr
       IO.readlines(file_name).each_slice(4).map { |slice| parse_entry(slice) }
     end
 
+    def self.process(file_name)
+      parsed_numbers = parse_file(file_name)
+      output_file = file_name.gsub(/(.+)\.txt$/, '\1_output.txt')
+      file = File.open(output_file, 'w')
+      file.write(parsed_numbers)
+      file.close
+    end
+
     def self.numbers_per_entry(lines_entry)
       numbers = []
       line = lines_entry.first(3)

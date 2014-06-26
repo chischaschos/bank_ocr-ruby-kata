@@ -44,7 +44,7 @@ module BankOcr
     end
 
     def parse
-      NUMBERS.fetch(@original, ' ')
+      NUMBERS.fetch(@original, '?')
     end
 
   end
