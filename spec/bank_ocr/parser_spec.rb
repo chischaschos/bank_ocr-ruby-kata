@@ -54,18 +54,6 @@ describe BankOcr::Parser do
     end
   end
 
-  describe '#each_entry' do
-    context 'with a perfect file' do
-      it 'should read each 4 lines as an entry' do
-        file = File.join(File.realpath(File.dirname(__FILE__)), '..', 'fixtures', 'test_numbers_1.txt')
-        lines = IO.readlines(file)
-        bank_ocr_parser.each_entry(lines) do |entry|
-          expect(entry).to have(4).items
-        end
-      end
-    end
-  end
-
   describe '#parse_entry' do
     let(:series) do
       {
