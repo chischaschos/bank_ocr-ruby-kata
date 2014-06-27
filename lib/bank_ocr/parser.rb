@@ -26,9 +26,11 @@ module BankOcr
 
     def self.process(file_name)
       parsed_numbers = parse_file(file_name)
+      parsed_numbers.each { |parsed_number|  add_entry_validation!(parsed_number) }
+
       output_file = file_name.gsub(/(.+)\.txt$/, '\1_output.txt')
       file = File.open(output_file, 'w')
-      file.write(parsed_numbers)
+      file.write(parsed_numbers.join("\n"))
       file.close
     end
 
@@ -44,6 +46,11 @@ module BankOcr
       end
 
       numbers
+    end
+
+    def self.add_entry_validation!(parsed_number)
+      error = AccountNumber.error(parsed_number) 
+      parsed_number <<  ' ' + error if error
     end
 
   end

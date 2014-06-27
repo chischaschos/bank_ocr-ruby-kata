@@ -44,6 +44,13 @@ describe BankOcr::Parser do
     it 'should parse and validate a file dumping its results to an output file' do
       bank_ocr_parser.process(input_file_name_2)
       expect(File.exists?(output_file_name_2)).to be_true
+      lines = File.readlines(output_file_name_2)
+      expect(lines[0].chomp).to eq "457508000"
+      expect(lines[1].chomp).to eq "664371495 ERR"
+      expect(lines[2].chomp).to eq "86110??36 ILL"
+      expect(lines[3].chomp).to eq "000000051"
+      expect(lines[4].chomp).to eq "49006771? ILL"
+      expect(lines[5].chomp).to eq "1234?678? ILL"
     end
   end
 
@@ -153,6 +160,13 @@ describe BankOcr::Parser do
         expect(number_parser.parse).to eq '0'
       end
       expect(numbers).to have(9).items
+    end
+  end
+
+  describe '#add_entry_validation!' do
+
+    it 'should add error codes if any' do
+      expect(bank_ocr_parser.add_entry_validation!('49006771?')).to eq '49006771? ILL'
     end
   end
 end

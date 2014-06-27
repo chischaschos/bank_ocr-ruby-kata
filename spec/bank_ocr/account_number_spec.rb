@@ -3,11 +3,11 @@ require 'spec_helper'
 describe BankOcr::AccountNumber do
 
   context 'when the numbers are valid' do
-    let(:numbers) { [ 711111111, 123456789, 490867715 ] }
+    let(:numbers) { [ 711111111, 123456789, 490867715, 457508000 ] }
 
     it 'should validate account numbers' do
       numbers.each do |number|
-        expect(BankOcr::AccountNumber.error(number.to_s)).to eq ''
+        expect(BankOcr::AccountNumber.error(number.to_s)).to be_nil
       end
     end
   end
