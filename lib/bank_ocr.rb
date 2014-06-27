@@ -1,4 +1,4 @@
-require "bank_ocr/version"
+require 'bank_ocr/version'
 
 module BankOcr
   autoload :Parser, 'bank_ocr/parser'
